@@ -12,8 +12,8 @@ Text data provides an oasis of information for both researchers and non-research
 
 You can access the material here:
 
-| [Slides]() | [Code (raw)]() | [Code (deployed)]() | [Recording]() |
-|--------|----------|----------|----------|
+| [Slides]() | [Code (raw)]() | [Code (deployed)]() | 
+|--------|----------|----------|
 
 ## Overview repository
 
