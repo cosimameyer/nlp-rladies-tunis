@@ -112,12 +112,29 @@ To decrease the sample size, I reduced the data set and it now only captures dat
 ```{r corpus, echo=TRUE}
 # Build the corpus
 mycorpus <- corpus(un_data)
+```
 
+If you're curious how a `corpus` looks like, here you go:
+```{r corpus_view, echo=TRUE}
+head(mycorpus, 2)
+```
+
+It looks like just the text, right? But a corpus is so much more. It also has `docvars` - basically variables describing it. 
+
+```{r, corpus_view2, echo=TRUE}
+head(docvars(mycorpus))
+```
+And we can even add a `docvar`: 
+```{r corpus_docvars, echo=TRUE}
 # Assigns a unique identifier to each text
 docvars(mycorpus, "Textno") <-
   sprintf("%02d", 1:ndoc(mycorpus)) 
 ```
 
+And again have a look at it:
+```{r, corpus_view3, echo=TRUE}
+head(docvars(mycorpus))
+```
 3. Text **pre-processing** (not all steps are always required). This way, we get the tokens.
 
 ```{r rtokens, echo=TRUE}
@@ -141,6 +158,12 @@ token <-
   )
 ```
 
+But how do `tokens` look like? We can easily check it:
+
+```{r tokens_view, echo=TRUE}
+head(token, 2)
+```
+
 Since the data is generated with OCR, we need to additionally clean this. We do this using the following command:
 
 ```{r ocr-cleaning, results='hide', message=FALSE, echo=TRUE}
@@ -153,6 +176,12 @@ token_ungd <- tokens_select(
   verbose = TRUE
 )
 ```
+
+We can now see how this changed our tokens: 
+```{r tokens_view2, echo=TRUE}
+head(token_ungd, 2)
+```
+
 
 4. Calculate a **document-feature matrix** (DFM)
 
@@ -174,7 +203,7 @@ mydfm <- dfm(
 Have a look at the DFM:
 
 ```{r head-dfm-normal, echo=TRUE}
-head(mydfm)
+head(mydfm, 2)
 ```
 
 Trim data: remove all the words that appear less than 7.5% of the time and more than 90% of the time
@@ -191,6 +220,10 @@ mydfm.trim <-
   ) 
 ```
 
+And check how your trimmed `DFM` looks like:
+```{r, dfm-trim2, echo=TRUE}
+head(mydfm.trim, 2)
+```
 
 ## Visualizing your data
 
@@ -277,7 +310,7 @@ Have a look at the new DFM:
 head(mydfm.un)
 ```
 
-Before we can turn to the plotting, we need to wrangle the data bit to bring it in the right order. These are basic tidyverse commands.
+Before we can turn to the plotting, we need to wrangle the data a bit to bring it in the right order. These are basic tidyverse commands.
 
 ```{r topic-wrangling, echo=TRUE}
 un.topics.pa <- 
@@ -288,7 +321,7 @@ un.topics.pa <-
   # Select relevant variables
   dplyr::select(country, macroeconomics, intl_affairs, defence) %>%
   # Bring the data set in a different order
-  tidyr::gather(macroeconomics:defence, key = "topic", value = "share") %>%
+  tidyr::pivot_longer(macroeconomics:defence, names_to = "topic", values_to = "share") %>%
   # Group by country
   group_by(country) %>%
   dplyr::mutate(
@@ -329,7 +362,7 @@ un.topics.pa %>%
 
 #### Sentiment analysis
 
-Here, we need to define more stopwords (create a manual list of them) to make sure that we do not bias our results. I have a non-exhaustive list here:
+Here, we need to define more stop words (create a manual list of them) to make sure that we do not bias our results. I have a non-exhaustive list here:
 
 ```{r sentiment-stopwords, echo=TRUE}
 # Define stopwords
@@ -436,9 +469,10 @@ The most frequently used dictionaries are:
 - [Bing](https://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html)
 - [AFINN](http://www2.imm.dtu.dk/pubdb/pubs/6010-full.html)
 - and [LSD (Lexicoder Sentiment Dictionary by Young and Sorok)](http://www.snsoroka.com/data-lexicoder/)
+
 For a more fine-grained approach, there is also the [`sentimentr` package](https://github.com/trinker/sentimentr), that my co-author, Dennis Hammerschmidt, and I use in our [paper](https://www.tectum-shop.de/titel/chinas-rolle-in-einer-neuen-weltordnung-id-97867/) on sentiment at the UNGD.
 
-We will go with the LSD dictionary here as it is already built in quanteda.
+We will go with the LSD dictionary here as it is already built in `quanteda`.
 
 ```{r sentiment-dict, echo=TRUE}
 # Call a dictionary
@@ -465,6 +499,11 @@ data <- convert(dfmat_lsd,
                 to = "data.frame")
 ```
 
+And have a look at the data:
+```{r, data_view_lss, echo=TRUE}
+head(data)
+```
+
 To get more meaningful results, we do some last tweaks:
 
 ```{r sentiment-wrangling, echo=TRUE}
@@ -478,7 +517,15 @@ data %<>%
     # Generate the net sentiment
     net_perc = pos_perc - neg_perc
   )
+```
 
+Again, have a look at the data:
+```{r data_view_sentiment, echo=TRUE}
+head(data)
+```
+
+
+```{r sentiment-wrangling2, echo=TRUE}
 # Generate country code and year
 data %<>%
   dplyr::mutate(# Define the country-code (it's all in the document ID)
