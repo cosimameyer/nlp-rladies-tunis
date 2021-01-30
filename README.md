@@ -22,8 +22,7 @@ This repository contains:
 ```
 ├── code
 │   ├── code_full.Rmd
-│   ├── code_full.html
-│   └── terms.png
+│   └── code_full.html
 ├── data
 │   ├── UN-data.RData
 │   └── policy_agendas_english.lcd
