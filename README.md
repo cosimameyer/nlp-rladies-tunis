@@ -12,7 +12,7 @@ Text data provides an oasis of information for both researchers and non-research
 
 You can access the material here:
 
-| [Slides]() | [Code (raw)]() | [Code (deployed)]() | 
+| [Slides](https://cosimameyer.rbind.io/slides/nlp-rladies-tunis/talk#1) | [Code (raw)](https://github.com/cosimameyer/nlp-rladies-tunis/tree/main/code) | [Code (deployed)]() | 
 |--------|----------|----------|
 
 ## Overview repository
@@ -29,7 +29,7 @@ This repository contains:
 ├── figures
 │   ├── stm-evaluation.png
 │   └── terms.png
-└── nlp-rladies-bergen.Rproj
+└── nlp-rladies-tunis.Rproj
 ```
 
 ## More resources
