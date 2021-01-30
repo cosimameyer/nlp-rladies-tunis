@@ -12,7 +12,7 @@ Text data provides an oasis of information for both researchers and non-research
 
 You can access the material here:
 
-| [Slides](https://cosimameyer.rbind.io/slides/nlp-rladies-tunis/talk#1) | [Code (raw)](https://github.com/cosimameyer/nlp-rladies-tunis/tree/main/code) | [Code (deployed)]() | 
+| [Slides](https://cosimameyer.rbind.io/slides/nlp-rladies-tunis/talk#1) | [Code (raw)](https://github.com/cosimameyer/nlp-rladies-tunis/tree/main/code) | [Code (deployed)](https://nlp-tunis.netlify.app/) | 
 |--------|----------|----------|
 
 ## Overview repository
